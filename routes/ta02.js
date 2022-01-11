@@ -1,15 +1,44 @@
-//TA02 PLACEHOLDER
-// Remember, you can make more of these placeholders yourself!
 const express = require('express');
 const router = express.Router();
 
+const names = ['bob', 'Joe', 'mike'];
+
+router.post('/removeUser', (req, res, next) => {
+  const remname = req.body.nonUser;
+  var ind = names.indexOf(remname)
+  if(ind != -1)
+  {
+    names.splice(ind,1);
+  }
+  else
+  {
+    console.error("that name is not Found on the list");
+
+  }
+  res.redirect('/ta02/');
+
+})
+
+router.post('/addUser', (req, res, next) => {
+  const tempname = req.body.newUser;
+  var ind1 = names.indexOf(tempname);
+  if(ind1 == -1){
+  names.push(tempname);
+  }
+  else
+  {
+    console.error("that name already is on the list");
+  }
+  res.redirect('/ta02/');
+
+})
+
 router.get('/', (req, res, next) => {
-  res.render('pages', {
+  res.render('pages/ta02', {
     title: 'Team Activity 02',
-    path: '/ta02', // For pug, EJS
-    activeTA03: true, // For HBS
-    contentCSS: true, // For HBS
-  });
+    users: names,
+    path: '/ta02',
+    });
 });
 
 module.exports = router;
